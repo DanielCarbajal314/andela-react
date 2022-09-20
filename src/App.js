@@ -1,10 +1,15 @@
 import './App.css';
-import { events } from './events/source'
+import { EventsProvider } from './events/events-context';
+import { EventTable } from './events/event-table';
+import { EventFilter } from './events/event-filter';
 
 function App() {
   return (
     <div className="App">
-      {events.map(({id}) => (<p key={id}>{id}</p>))}
+      <EventsProvider>
+        <EventFilter></EventFilter>
+        <EventTable></EventTable>
+      </EventsProvider>
     </div>
   );
 }
