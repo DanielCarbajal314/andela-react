@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useContext } from "react"
 import { EventsContext } from "./events-context";
 
 export const EventFilter = () => {
@@ -16,6 +16,10 @@ export const EventFilter = () => {
         setFilters(filters => ({...filters, isAnd: event.target.checked}))
     }
 
+    const handleCheapesChange = (event) => {
+        setFilters(filters => ({...filters, showCheapes: event.target.checked}))
+    }
+
     return(
         <div>
             <label>City</label>
@@ -23,7 +27,9 @@ export const EventFilter = () => {
             <label>Price</label>
             <input onChange={handlePriceChange} type="number"></input>
             <label>Use And</label>
-            <input onChange={handleOperationChange} type="checkbox"></input>
+            <input onChange={handleOperationChange} type="checkbox"></input>            
+            <label>Only The Cheapes</label>
+            <input onChange={handleCheapesChange} type="checkbox"></input>
             <button onClick={() => filterEvents()}>Filter</button>
         </div>
     )

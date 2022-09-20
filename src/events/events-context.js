@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useState } from "react";
 import { events } from './source';
 
 const EventsContext = createContext(undefined);
@@ -8,7 +8,8 @@ const EventsProvider = ({ children }) => {
     const [filters, setFilters] = useState({
         isAnd: false,
         city: null,
-        price: null
+        price: null,
+        showCheapes: false,
     })
     const filterEvents = () => {
         const cityContains = node => filters.city ? node.city.includes(filters.city) : false;
@@ -19,8 +20,11 @@ const EventsProvider = ({ children }) => {
             const filtersAreEmpty = !filters.city && !filters.price;
             const evaluation = filters.isAnd ? priceIsLower && cityNameContains : priceIsLower || cityNameContains;
             return filtersAreEmpty || evaluation;
-        } 
-        setFilteredEvents(events.filter(filterFunc));
+        };
+        const filteredValues = events.filter(filterFunc);
+        const cheapesOne = filteredValues.sort((a,b) => a.price-b.price)[0];
+        const cheapesArray = cheapesOne? [ cheapesOne ] : [];
+        setFilteredEvents(filters.showCheapes? cheapesArray : filteredValues);
     }
     return (
       <EventsContext.Provider value={{filteredEvents, filterEvents, setFilters}}>
